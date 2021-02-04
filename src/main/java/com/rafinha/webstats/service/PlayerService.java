@@ -1,42 +1,43 @@
 package com.rafinha.webstats.service;
 
-import com.rafinha.webstats.dao.PlayerDao;
 import com.rafinha.webstats.model.Player;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PlayerService {
 
-    private final PlayerDao playerDao;
+    private static List<Player> players = new ArrayList<>();
 
-    @Autowired
-    public PlayerService(@Qualifier("daoList") PlayerDao playerDao) {
-        this.playerDao = playerDao;
+    static {
+        players.add(new Player(UUID.randomUUID(),"Marc Andre", "ter Stegen", "FC Barcelona"));
+        players.add(new Player(UUID.randomUUID(),"Jordi", "Alba", "FC Barcelona"));
+        players.add(new Player(UUID.randomUUID(),"Frankie", "de Jong", "FC Barcelona"));
+        players.add(new Player(UUID.randomUUID(),"Lionel", "Messi", "FC Barcelona"));
     }
 
-    public int addPlayer(Player player) {
-        return playerDao.insertPlayer(player);
+    public List<Player> retrievePlayersByClub(String club) {
+        List<Player> filteredPlayersByClub = new ArrayList<>();
+        for (Player player : players) {
+            if (player.getClub().equals(club)) {
+                filteredPlayersByClub.add(player);
+            }
+        }
+        return filteredPlayersByClub;
     }
 
-    public List<Player> getAllPlayers() {
-        return playerDao.selectAllPlayers();
+    public void addPlayer(String name, String surname, String club) {
+        players.add(new Player(UUID.randomUUID(), name, surname, club));
     }
 
-    public Optional<Player> getPlayerById(UUID id) {
-        return playerDao.selectPlayerById(id);
-    }
-
-    public int deletePlayer(UUID id) {
-        return playerDao.deletePlayerById(id);
-    }
-
-    public int updatePlayer(UUID id, Player newPlayer) {
-        return playerDao.updatePlayerById(id, newPlayer);
+    public void deletePlayerById(UUID uuid) {
+        Iterator<Player> iterator = players.iterator();
+        while (iterator.hasNext()) {
+            Player player = iterator.next();
+            if(player.getId() == uuid) {
+                iterator.remove();
+            }
+        }
     }
 }
