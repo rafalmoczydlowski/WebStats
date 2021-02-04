@@ -9,12 +9,13 @@ import java.util.*;
 public class PlayerService {
 
     private static List<Player> players = new ArrayList<>();
+    private static final String FC_BARCELONA = "FC Barcelona";
 
     static {
-        players.add(new Player(UUID.randomUUID(),"Marc Andre", "ter Stegen", "FC Barcelona"));
-        players.add(new Player(UUID.randomUUID(),"Jordi", "Alba", "FC Barcelona"));
-        players.add(new Player(UUID.randomUUID(),"Frankie", "de Jong", "FC Barcelona"));
-        players.add(new Player(UUID.randomUUID(),"Lionel", "Messi", "FC Barcelona"));
+        players.add(new Player(UUID.randomUUID(),"Marc Andre", "ter Stegen", FC_BARCELONA));
+        players.add(new Player(UUID.randomUUID(),"Jordi", "Alba", FC_BARCELONA));
+        players.add(new Player(UUID.randomUUID(),"Frankie", "de Jong", FC_BARCELONA));
+        players.add(new Player(UUID.randomUUID(),"Lionel", "Messi", FC_BARCELONA));
     }
 
     public List<Player> retrievePlayersByClub(String club) {
