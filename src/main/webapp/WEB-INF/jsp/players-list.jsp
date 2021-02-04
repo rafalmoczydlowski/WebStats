@@ -5,9 +5,7 @@
     <title>WebStats</title>
 </head>
 <body>
-Welcome ${name} to my statistics program. What do you want to do now?
-<br>
-<br>
-<a href="/players-list">List of players</a> <= add, remove, edit players
+Players in database:
+${fcbarcelona}
 </body>
 </html>
