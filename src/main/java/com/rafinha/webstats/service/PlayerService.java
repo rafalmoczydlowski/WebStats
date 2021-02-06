@@ -18,6 +18,13 @@ public class PlayerService {
         players.add(new Player(UUID.randomUUID(),"Lionel", "Messi", FC_BARCELONA));
     }
 
+    public List<Player> showAllPlayers() {
+        List<Player> allPlayers = new ArrayList<>();
+        for (Player player : players)
+            allPlayers.add(player);
+        return allPlayers;
+    }
+
     public List<Player> retrievePlayersByClub(String club) {
         List<Player> filteredPlayersByClub = new ArrayList<>();
         for (Player player : players) {
