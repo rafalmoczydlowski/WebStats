@@ -8,6 +8,8 @@
 Dear ${name}!
 <br>
 Players in database:
-${fcbarcelona}
+${players}
+<br><br>
+<a href="add-player">Add a player to the database</a>
 </body>
 </html>
