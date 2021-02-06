@@ -5,6 +5,8 @@
     <title>WebStats</title>
 </head>
 <body>
+Dear ${name}!
+<br>
 Players in database:
 ${fcbarcelona}
 </body>
