@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Club</th>
+            <th>Player's id</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
             <td>${player.name}</td>
             <td>${player.surname}</td>
             <td>${player.club}</td>
+            <td>${player.id}</td>
         </tr>
     </c:forEach>
     </tbody>

@@ -30,7 +30,7 @@ public class PlayerController {
     }
 
     @PostMapping("/add-player")
-    public String addPlayer(ModelMap modelMap, @RequestParam String name, @RequestParam String surname, @RequestParam String club) {
+    public String addPlayer(@RequestParam String name, @RequestParam String surname, @RequestParam String club) {
         playerService.addPlayer(name, surname, club);
         return "redirect:/players-list";
     }
