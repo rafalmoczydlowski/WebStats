@@ -10,15 +10,15 @@
     <div class="container">
         <form method="post">
             <fieldset class="form-group">
-                <label>Name</label>
+                <legend>Player's name &darr;</legend>
                 <input name="name" type="text" class="form-control" required="required"/>
             </fieldset>
             <fieldset class="form-group">
-                <label>Surname</label>
+                <legend>Player's surname &darr;</legend>
                 <input name="surname" type="text" class="form-control" required="required"/>
             </fieldset>
             <fieldset class="form-group">
-                <label>Club</label>
+                <legend>Name of the club &darr;</legend>
                 <input name="club" type="text" class="form-control" required="required"/>
             </fieldset>
 

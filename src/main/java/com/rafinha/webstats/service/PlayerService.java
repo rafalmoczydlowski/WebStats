@@ -37,7 +37,7 @@ public class PlayerService {
         return filteredPlayersByClub;
     }
 
-    public void addPlayer(String name, String surname, String club) {
+    public static void addPlayer(String name, String surname, String club) {
         players.add(new Player(++count, name, surname, club));
     }
 
