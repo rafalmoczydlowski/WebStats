@@ -9,14 +9,15 @@
 </head>
 <body>
     <div class="container">
-        <H1>Players in database</H1>
-        <table class="table table-striped">
+        <br>
+        <p id ="table">Players in database</p>
+        <table aria-describedby="table" class="table table-striped">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Club</th>
-                    <th>Player's id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Club</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,13 +26,13 @@
                     <td>${player.name}</td>
                     <td>${player.surname}</td>
                     <td>${player.club}</td>
-                    <td>${player.id}</td>
+                    <td><a type="button" class="btn btn-warning" href="/delete-player?id=${player.id}">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
 
-        <div><a class="button" href="add-player">Add a player to the database</a></div>
+        <div><a class="button" href="/add-player">Add a player to the database</a></div>
 
         <script src="webjars/jquery/3.4.1/jquery.min.js"></script>
         <script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>

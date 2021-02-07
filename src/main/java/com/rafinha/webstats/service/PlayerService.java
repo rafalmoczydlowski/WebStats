@@ -12,10 +12,10 @@ public class PlayerService {
     private static final String FC_BARCELONA = "FC Barcelona";
 
     static {
-        players.add(new Player(UUID.randomUUID(),"Marc Andre", "ter Stegen", FC_BARCELONA));
-        players.add(new Player(UUID.randomUUID(),"Jordi", "Alba", FC_BARCELONA));
-        players.add(new Player(UUID.randomUUID(),"Frankie", "de Jong", FC_BARCELONA));
-        players.add(new Player(UUID.randomUUID(),"Lionel", "Messi", FC_BARCELONA));
+        players.add(new Player(1,"Marc Andre", "ter Stegen", FC_BARCELONA));
+        players.add(new Player(2,"Jordi", "Alba", FC_BARCELONA));
+        players.add(new Player(3,"Frankie", "de Jong", FC_BARCELONA));
+        players.add(new Player(4,"Lionel", "Messi", FC_BARCELONA));
     }
 
     public List<Player> showAllPlayers() {
@@ -36,14 +36,15 @@ public class PlayerService {
     }
 
     public void addPlayer(String name, String surname, String club) {
-        players.add(new Player(UUID.randomUUID(), name, surname, club));
+        int count = players.size();
+        players.add(new Player(++count, name, surname, club));
     }
 
-    public void deletePlayerById(UUID uuid) {
+    public void deletePlayerById(int id) {
         Iterator<Player> iterator = players.iterator();
         while (iterator.hasNext()) {
             Player player = iterator.next();
-            if(player.getId() == uuid) {
+            if(player.getId() == id) {
                 iterator.remove();
             }
         }
