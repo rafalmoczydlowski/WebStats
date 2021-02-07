@@ -18,6 +18,8 @@ public class PlayerService {
         players.add(new Player(4,"Lionel", "Messi", FC_BARCELONA));
     }
 
+    private static int count = players.size();
+
     public List<Player> showAllPlayers() {
         List<Player> allPlayers = new ArrayList<>();
         for (Player player : players)
@@ -36,7 +38,6 @@ public class PlayerService {
     }
 
     public void addPlayer(String name, String surname, String club) {
-        int count = players.size();
         players.add(new Player(++count, name, surname, club));
     }
 
