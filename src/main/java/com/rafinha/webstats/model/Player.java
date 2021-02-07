@@ -1,25 +1,20 @@
 package com.rafinha.webstats.model;
 
-import javax.validation.constraints.NotBlank;
-import java.util.UUID;
-
 public class Player {
 
-    private final UUID id;
-    @NotBlank(message = "Name may not be blank")
+    private final int id;
     private String name;
-    @NotBlank(message = "Name may not be blank")
     private String surname;
     private String club;
 
-    public Player(UUID id, String name, String surname, String club) {
+    public Player(int id, String name, String surname, String club) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.club = club;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
