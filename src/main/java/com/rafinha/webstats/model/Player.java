@@ -1,11 +1,27 @@
 package com.rafinha.webstats.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class Player {
 
-    private final int id;
+    private int id;
+    @NotBlank(message = "Name may not be blank")
+    @Pattern(regexp = "^[/^[\\s\\p{L}]+$/u]+$", message = "Only letters")
+    @Size(min = 2, message = "The name must be at least 2 characters long")
     private String name;
+    @NotBlank(message = "Name may not be blank")
+    @Pattern(regexp = "^[/^[\\s\\p{L}]+$/u]+$", message = "Only letters")
+    @Size(min = 2, message = "The name must be at least 2 characters long")
     private String surname;
+    @NotBlank(message = "Name may not be blank")
+    @Size(min = 2, message = "The name must be at least 2 characters long")
     private String club;
+
+    public Player() {
+        super();
+    }
 
     public Player(int id, String name, String surname, String club) {
         this.id = id;
