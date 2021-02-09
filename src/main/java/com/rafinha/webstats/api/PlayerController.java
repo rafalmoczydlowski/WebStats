@@ -1,10 +1,14 @@
 package com.rafinha.webstats.api;
 
+import com.rafinha.webstats.model.Player;
 import com.rafinha.webstats.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @SessionAttributes("name")
@@ -22,13 +26,17 @@ public class PlayerController {
     }
 
     @GetMapping("/add-player")
-    public String showAddPlayerPage() {
+    public String showAddPlayerPage(ModelMap modelMap) {
+        modelMap.addAttribute("player", new Player(0, "Default Name", "Default Surname", "Default Club"));
         return "player";
     }
 
     @PostMapping("/add-player")
-    public String addPlayer(@RequestParam String name, @RequestParam String surname, @RequestParam String club) {
-        PlayerService.addPlayer(name, surname, club);
+    public String addPlayer(@Valid Player player, BindingResult result) {
+        if(result.hasErrors())
+            return "player";
+
+        PlayerService.addPlayer(player.getName(), player.getSurname(), player.getClub());
         return "redirect:/players-list";
     }
 
