@@ -32,4 +32,9 @@ public class LoginController {
         modelMap.put("password", password);
         return "welcome";
     }
+
+    @GetMapping("/welcome")
+    public String showWelcomePage() {
+        return "welcome";
+    }
 }
