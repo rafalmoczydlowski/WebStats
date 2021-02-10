@@ -45,4 +45,20 @@ public class PlayerController {
         playerService.deletePlayerById(id);
         return "redirect:/players-list";
     }
+
+    @GetMapping("/update-player")
+    public String showUpdatePlayerPage(@RequestParam int id, ModelMap modelMap) {
+        Player player = playerService.retrievePlayer(id);
+        modelMap.put("player", player);
+        return "player";
+    }
+
+    @PostMapping("/update-player")
+    public String updatePlayer(@RequestParam int id, @Valid Player player, BindingResult result) {
+        if(result.hasErrors())
+            return "player";
+        playerService.deletePlayerById(id);
+        PlayerService.updatePlayer(id ,player.getName(), player.getSurname(), player.getClub());
+        return "redirect:/players-list";
+    }
 }

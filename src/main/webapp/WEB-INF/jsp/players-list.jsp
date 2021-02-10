@@ -18,6 +18,7 @@
                     <th scope="col">Surname</th>
                     <th scope="col">Club</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,7 @@
                     <td>${player.name}</td>
                     <td>${player.surname}</td>
                     <td>${player.club}</td>
+                    <td><a type="button" class="btn btn-success" href="/update-player?id=${player.id}">Update</a></td>
                     <td><a type="button" class="btn btn-warning" href="/delete-player?id=${player.id}">Delete</a></td>
                 </tr>
             </c:forEach>

@@ -50,4 +50,16 @@ public class PlayerService {
             }
         }
     }
+
+    public Player retrievePlayer(int id) {
+        for (Player player : players) {
+            if(player.getId() == id)
+                return player;
+        }
+        return null;
+    }
+
+    public static void updatePlayer(int id,String name, String surname, String club) {
+        players.add(new Player(id, name, surname, club));
+    }
 }
