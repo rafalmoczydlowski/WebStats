@@ -14,6 +14,9 @@ import javax.validation.Valid;
 @SessionAttributes("name")
 public class PlayerController {
 
+    private static final String REDIRECT_1 = "redirect:/players-list";
+    private static final String PLAYER = "player";
+
     @Autowired
     PlayerService playerService;
 
@@ -27,38 +30,38 @@ public class PlayerController {
 
     @GetMapping("/add-player")
     public String showAddPlayerPage(ModelMap modelMap) {
-        modelMap.addAttribute("player", new Player(0, "Default Name", "Default Surname", "Default Club"));
-        return "player";
+        modelMap.addAttribute(PLAYER, new Player(0, "Default Name", "Default Surname", "Default Club"));
+        return PLAYER;
     }
 
     @PostMapping("/add-player")
     public String addPlayer(@Valid Player player, BindingResult result) {
         if(result.hasErrors())
-            return "player";
+            return PLAYER;
 
         PlayerService.addPlayer(player.getName(), player.getSurname(), player.getClub());
-        return "redirect:/players-list";
+        return REDIRECT_1;
     }
 
     @GetMapping(value = "/delete-player")
     public String deletePlayer(@RequestParam int id) {
         playerService.deletePlayerById(id);
-        return "redirect:/players-list";
+        return REDIRECT_1;
     }
 
     @GetMapping("/update-player")
     public String showUpdatePlayerPage(@RequestParam int id, ModelMap modelMap) {
         Player player = playerService.retrievePlayer(id);
-        modelMap.put("player", player);
-        return "player";
+        modelMap.put(PLAYER, player);
+        return PLAYER;
     }
 
     @PostMapping("/update-player")
     public String updatePlayer(@RequestParam int id, @Valid Player player, BindingResult result) {
         if(result.hasErrors())
-            return "player";
+            return PLAYER;
         playerService.deletePlayerById(id);
         PlayerService.updatePlayer(id ,player.getName(), player.getSurname(), player.getClub());
-        return "redirect:/players-list";
+        return REDIRECT_1;
     }
 }
