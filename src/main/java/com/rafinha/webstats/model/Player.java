@@ -24,6 +24,7 @@ public class Player {
     }
 
     public Player(int id, String name, String surname, String club) {
+        super();
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -44,6 +45,10 @@ public class Player {
 
     public String getClub() {
         return club;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
