@@ -3,6 +3,8 @@ package com.rafinha.webstats.api;
 import com.rafinha.webstats.model.Player;
 import com.rafinha.webstats.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@SessionAttributes("name")
 public class PlayerController {
 
     private static final String REDIRECT_1 = "redirect:/players-list";
@@ -22,7 +23,7 @@ public class PlayerController {
 
     @GetMapping("/players-list")
     public String showPlayersList(ModelMap modelMap) {
-        String name = getLoggedInUserName(modelMap);
+        String name = getLoggedInUserName();
         modelMap.put("name", name);
         modelMap.put("players", playerService.showAllPlayers());
         return "players-list";
@@ -65,7 +66,11 @@ public class PlayerController {
         return REDIRECT_1;
     }
 
-    private String getLoggedInUserName(ModelMap modelMap) {
-        return (String) modelMap.get("name");
+    private String getLoggedInUserName() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails)
+            return ((UserDetails) principal).getUsername();
+        return principal.toString();
     }
 }
