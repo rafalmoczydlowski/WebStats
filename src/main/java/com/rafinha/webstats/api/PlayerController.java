@@ -22,7 +22,7 @@ public class PlayerController {
 
     @GetMapping("/players-list")
     public String showPlayersList(ModelMap modelMap) {
-        String name = (String) modelMap.get("name");
+        String name = getLoggedInUserName(modelMap);
         modelMap.put("name", name);
         modelMap.put("players", playerService.showAllPlayers());
         return "players-list";
@@ -63,5 +63,9 @@ public class PlayerController {
         playerService.deletePlayerById(id);
         PlayerService.updatePlayer(id ,player.getName(), player.getSurname(), player.getClub());
         return REDIRECT_1;
+    }
+
+    private String getLoggedInUserName(ModelMap modelMap) {
+        return (String) modelMap.get("name");
     }
 }
