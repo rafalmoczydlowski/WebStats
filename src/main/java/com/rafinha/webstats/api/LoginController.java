@@ -16,25 +16,9 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String showWelcomeMessage(@RequestParam String name, @RequestParam String password, ModelMap modelMap) {
-        boolean isValidUser = loginService.validateUser(name, password);
-        if(!isValidUser) {
-            modelMap.put("validationErrorMessage", "Incorrect data. Try again.");
-            return "login";
-        }
-        modelMap.put("name", name);
-        modelMap.put("password", password);
-        return "welcome";
-    }
-
-    @GetMapping("/welcome")
-    public String showWelcomePage() {
+    @GetMapping("/")
+    public String showLoginPage(ModelMap modelMap) {
+        modelMap.put("name", "Rafał");
         return "welcome";
     }
 }
