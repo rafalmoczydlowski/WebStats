@@ -5,17 +5,17 @@ import java.util.Objects;
 
 public class Team {
     private int id;
-    private String name;
+    private String clubName;
     private List<Player> players;
 
     public Team() {
         super();
     }
 
-    public Team(int id, String name, List<Player> players) {
+    public Team(int id, String clubName, List<Player> players) {
         super();
         this.id = id;
-        this.name = name;
+        this.clubName = clubName;
         this.players = players;
     }
 
@@ -27,12 +27,12 @@ public class Team {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getClubName() {
+        return clubName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
     }
 
     public List<Player> getPlayers() {
@@ -45,7 +45,11 @@ public class Team {
 
     @Override
     public String toString() {
-        return String.format("Team [id=%d, name=%s, players=%s]", id, name, players);
+        return "Team{" +
+                "id=" + id +
+                ", clubName='" + clubName + '\'' +
+                ", players=" + players +
+                '}';
     }
 
     @Override

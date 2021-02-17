@@ -34,14 +34,13 @@ public class TeamService {
         return teams;
     }
 
-    public List<Team> retrieveTeamsByName(String clubNameFilter) {
-        List<Team> filteredTeamsByName = new ArrayList<>();
+    public Team retrieveTeamByName(String clubNameFilter) {
         for (Team team : teams) {
-            if (team.getName().equals(clubNameFilter)) {
-                filteredTeamsByName.add(team);
+            if (team.getClubName().equals(clubNameFilter)) {
+                return team;
             }
         }
-        return filteredTeamsByName;
+        return null;
     }
 
     public Team retrieveTeamById(int clubIdFilter) {
@@ -52,8 +51,25 @@ public class TeamService {
         return null;
     }
 
-    public List<Player> retrievePlayers(int teamId) {
+    public String retrieveClubNameByTeamId(int clubIdFilter) {
+        for (Team team : teams) {
+            if (team.getId() == clubIdFilter)
+                return team.getClubName();
+        }
+        return null;
+    }
+
+    public List<Player> retrievePlayersByClubId(int teamId) {
         Team team = retrieveTeamById(teamId);
+
+        if (team == null)
+            return Collections.emptyList();
+
+        return team.getPlayers();
+    }
+
+    public List<Player> retrievePlayersByClubName(String clubName) {
+        Team team = retrieveTeamByName(clubName);
 
         if (team == null)
             return Collections.emptyList();
@@ -74,8 +90,8 @@ public class TeamService {
         return null;
     }
 
-    public static void addTeam(String name) {
-        teams.add(new Team(++count, name, new ArrayList<>()));
+    public static void addTeam(String clubName) {
+        teams.add(new Team(++count, clubName, new ArrayList<>()));
     }
 
     public Player addPlayer(int teamId, Player player) {
