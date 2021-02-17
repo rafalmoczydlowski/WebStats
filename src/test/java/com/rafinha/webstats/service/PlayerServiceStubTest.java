@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class PlayerServiceTest {
+public class PlayerServiceStubTest {
 
     PlayerService playerService = new PlayerService();
 
