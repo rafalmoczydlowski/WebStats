@@ -11,21 +11,17 @@ import java.util.*;
 @Component
 public class TeamService {
     private static List<Team> teams = new ArrayList<>();
-    private static final String FC_BARCELONA = "FC Barcelona";
     private static int count = teams.size();
     private SecureRandom secureRandom = new SecureRandom();
 
-    //initialize player list
     static {
-        Player player1 = new Player(1,"Marc Andre", "ter Stegen", FC_BARCELONA);
-        Player player2 = new Player(2,"Jordi", "Alba", FC_BARCELONA);
-        Player player3 = new Player(3,"Frankie", "de Jong", FC_BARCELONA);
-        Player player4 = new Player(4,"Lionel", "Messi", FC_BARCELONA);
+        //initialize player list
+        PlayerService playerService = new PlayerService();
 
-        List<Player> players = new ArrayList<>(Arrays.asList(player1, player2, player3, player4));
+        List<Player> players = new ArrayList<>(playerService.showAllPlayers());
 
         //initialize a team with the given players
-        Team fcBarcelona = new Team(1, FC_BARCELONA, players);
+        Team fcBarcelona = new Team(1, "FC Barcelona", players);
 
         teams.add(fcBarcelona);
     }
