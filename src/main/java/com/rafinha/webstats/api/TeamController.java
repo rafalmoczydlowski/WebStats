@@ -19,4 +19,10 @@ public class TeamController {
     public List<Player> retrievePlayersForTeam(@PathVariable String clubName) {
         return teamService.retrievePlayersByClubName(clubName);
     }
+
+    @GetMapping("/teams/{clubName}/players/{playerId}")
+    public Player retrieveDetailsForPlayer(@PathVariable String clubName, @PathVariable int playerId) {
+        return teamService.retrievePlayerByClubNameAndPlayerId(clubName, playerId);
+
+    }
 }

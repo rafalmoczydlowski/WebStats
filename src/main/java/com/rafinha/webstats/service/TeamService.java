@@ -86,6 +86,19 @@ public class TeamService {
         return null;
     }
 
+    public Player retrievePlayerByClubNameAndPlayerId(String clubName, int playerId) {
+        Team team = retrieveTeamByName(clubName);
+
+        if(team == null)
+            return null;
+
+        for (Player player : team.getPlayers()) {
+            if (player.getId() == playerId)
+                return player;
+        }
+        return null;
+    }
+
     public static void addTeam(String clubName) {
         teams.add(new Team(++count, clubName, new ArrayList<>()));
     }
