@@ -9,7 +9,7 @@ import java.util.*;
 public class PlayerService {
 
     private static List<Player> players = new ArrayList<>();
-    private static final String FC_BARCELONA = "FC Barcelona";
+    private static final String FC_BARCELONA = "fc-barcelona";
 
     static {
         players.add(new Player(1,"Marc Andre", "ter Stegen", FC_BARCELONA));
@@ -61,5 +61,19 @@ public class PlayerService {
 
     public static void updatePlayer(int id,String name, String surname, String club) {
         players.add(new Player(id, name, surname, club));
+    }
+
+
+    public int findFirstFreeIdInClub() {
+        List<Integer> idList = new ArrayList<>();
+        int min = 1;
+        for (Player player : players)
+            idList.add(player.getId());
+
+        for (int id : idList) {
+            if (id == min)
+                min++;
+        }
+        return min;
     }
 }
