@@ -30,7 +30,7 @@ public class PlayerServiceStubTest {
 
     @Test
     public void retrievePlayersByClubTest() {
-        Object[] fcBarcelonaPlayers = playerService.retrievePlayersByClub("FC Barcelona").toArray();
+        Object[] fcBarcelonaPlayers = playerService.retrievePlayersByClub("fc-barcelona").toArray();
         assertArrayEquals(expectedPlayers, fcBarcelonaPlayers);
     }
 
@@ -56,5 +56,11 @@ public class PlayerServiceStubTest {
         String surnameOfSecondPlayer = playerService.retrievePlayer(2).getSurname();
         String expectedString = "Alba";
         assertEquals(expectedString, surnameOfSecondPlayer);
+    }
+
+    @Test
+    public void findTheFirstFreeIdInClubTest() {
+        int freeId = playerService.findFirstFreeIdInClub();
+        assertEquals(5, freeId);
     }
 }

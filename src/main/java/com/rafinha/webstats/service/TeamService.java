@@ -4,15 +4,15 @@ import com.rafinha.webstats.model.Player;
 import com.rafinha.webstats.model.Team;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 @Component
 public class TeamService {
     private static List<Team> teams = new ArrayList<>();
     private static int count = teams.size();
-    private SecureRandom secureRandom = new SecureRandom();
 
     static {
         //initialize player list
@@ -21,7 +21,7 @@ public class TeamService {
         List<Player> players = new ArrayList<>(playerService.showAllPlayers());
 
         //initialize a team with the given players
-        Team fcBarcelona = new Team(1, "FC Barcelona", players);
+        Team fcBarcelona = new Team(1, "fc-barcelona", players);
 
         teams.add(fcBarcelona);
     }
@@ -86,22 +86,37 @@ public class TeamService {
         return null;
     }
 
+    public Player retrievePlayerByClubNameAndPlayerId(String clubName, int playerId) {
+        Team team = retrieveTeamByName(clubName);
+
+        if(team == null)
+            return null;
+
+        for (Player player : team.getPlayers()) {
+            if (player.getId() == playerId)
+                return player;
+        }
+        return null;
+    }
+
     public static void addTeam(String clubName) {
         teams.add(new Team(++count, clubName, new ArrayList<>()));
     }
 
-    public Player addPlayer(int teamId, Player player) {
-        Team team = retrieveTeamById(teamId);
+    public Player addPlayerToTeam(String clubName, Player player) {
+        Team team = retrieveTeamByName(clubName);
 
         if (team == null) {
             return null;
         }
 
-        int randomId = new BigInteger(130, secureRandom).intValue();
-        player.setId(randomId);
+        int firstFreeId = findFirstFreePlayerIdInClub(clubName);
+        player.setId(firstFreeId);
+        player.setClub(clubName);
 
         team.getPlayers().add(player);
 
+        System.out.println(player);
         return player;
     }
 
@@ -113,5 +128,20 @@ public class TeamService {
                 iterator.remove();
             }
         }
+    }
+
+    public int findFirstFreePlayerIdInClub(String clubName) {
+        List<Player> team = retrievePlayersByClubName(clubName);
+        List<Integer> playersId = new ArrayList<>();
+        int min = 1;
+
+        for (Player player : team)
+            playersId.add(player.getId());
+
+        for (int id : playersId) {
+            if (id == min)
+                min++;
+        }
+        return min;
     }
 }
