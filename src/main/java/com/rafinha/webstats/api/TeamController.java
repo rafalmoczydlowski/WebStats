@@ -1,6 +1,7 @@
 package com.rafinha.webstats.api;
 
 import com.rafinha.webstats.model.Player;
+import com.rafinha.webstats.model.Team;
 import com.rafinha.webstats.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,11 @@ public class TeamController {
 
     @Autowired
     private TeamService teamService;
+
+    @GetMapping("/teams")
+    public List<Team> retrieveTeams() {
+        return teamService.retrieveAllTeams();
+    }
 
     @GetMapping("/teams/{clubName}/players")
     public List<Player> retrievePlayersForTeam(@PathVariable String clubName) {
