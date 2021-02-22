@@ -41,8 +41,8 @@ public class WelcomeController {
     }
 
     @GetMapping("/dynamic")
-    public Map dynamicConfiguration() {
-        Map map = new HashMap();
+    public Map<String, String> dynamicConfiguration() {
+        Map<String, String> map = new HashMap<>();
         map.put("message", configuration.getMessage());
         return map;
     }

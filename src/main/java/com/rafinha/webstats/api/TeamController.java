@@ -28,7 +28,7 @@ public class TeamController {
     }
 
     @PostMapping("/teams/{clubName}/players")
-    public ResponseEntity<?> addPlayerForTeam(@PathVariable String clubName, @RequestBody Player player) {
+    public ResponseEntity<Void> addPlayerForTeam(@PathVariable String clubName, @RequestBody Player player) {
         // adding a new player
         Player newPlayer = teamService.addPlayerToTeam(clubName, player);
 
