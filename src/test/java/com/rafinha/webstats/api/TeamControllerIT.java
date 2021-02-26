@@ -2,6 +2,7 @@ package com.rafinha.webstats.api;
 
 import com.rafinha.webstats.WebstatsApplication;
 import com.rafinha.webstats.model.Player;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,13 +25,12 @@ public class TeamControllerIT {
     @LocalServerPort
     private int portNumber;
 
-    private ResponseEntity<String> getResponseEntityByPlayersId(int playerId) {
-        String url = "http://localhost:"+portNumber+"/teams/fc-barcelona/players/"+playerId;
-        HttpHeaders headers = new HttpHeaders();
+    TestRestTemplate restTemplate = new TestRestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+
+    @Before
+    public void beforeTest() {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity entity = new HttpEntity(null, headers);
-        TestRestTemplate restTemplate = new TestRestTemplate();
-        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
 
     @Test
@@ -51,32 +51,26 @@ public class TeamControllerIT {
 
     @Test
     public void retrieveAllPlayersFromTeam() {
-        String url = "http://localhost:"+portNumber+"/teams/fc-barcelona/players/";
-        TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
-        ResponseEntity<List<Player>> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>("DOESN'T MATTER", headers), new ParameterizedTypeReference<List<Player>>(){});
-
         Player examplePlayer = new Player(1,"Marc Andre", "ter Stegen", "fc-barcelona");
-
+        ResponseEntity<List<Player>> response = restTemplate.exchange(getURLWithPortNumber(), HttpMethod.GET, new HttpEntity<>("DOESN'T MATTER", headers), new ParameterizedTypeReference<>() {});
         assertTrue(response.getBody().contains(examplePlayer));
     }
 
     @Test
     public void createTeamPlayer() {
-        String url = "http://localhost:"+portNumber+"/teams/fc-barcelona/players/";
-        TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
         Player player = new Player(5, "Rafał", "Moczydłowski", "fc-barcelona");
-
         HttpEntity entity = new HttpEntity<>(player, headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(getURLWithPortNumber(), HttpMethod.POST, entity, String.class);
         String actual = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
-
         assertTrue(actual.contains("/teams/fc-barcelona/players/"));
+    }
+
+    private String getURLWithPortNumber() {
+        return "http://localhost:"+portNumber+"/teams/fc-barcelona/players/";
+    }
+
+    private ResponseEntity<String> getResponseEntityByPlayersId(int playerId) {
+        HttpEntity entity = new HttpEntity(null, headers);
+        return restTemplate.exchange(getURLWithPortNumber()+playerId, HttpMethod.GET, entity, String.class);
     }
 }
