@@ -1,15 +1,18 @@
 package com.rafinha.webstats.api;
 
 import com.rafinha.webstats.WebstatsApplication;
+import com.rafinha.webstats.model.Player;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,5 +47,36 @@ public class TeamControllerIT {
         ResponseEntity<String> exchange = getResponseEntityByPlayersId(2);
         assertTrue(exchange.getBody().contains("\"id\":2"));
         assertEquals(expectedJSON, exchange.getBody());
+    }
+
+    @Test
+    public void retrieveAllPlayersFromTeam() {
+        String url = "http://localhost:"+portNumber+"/teams/fc-barcelona/players/";
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        ResponseEntity<List<Player>> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>("DOESN'T MATTER", headers), new ParameterizedTypeReference<List<Player>>(){});
+
+        Player examplePlayer = new Player(1,"Marc Andre", "ter Stegen", "fc-barcelona");
+
+        assertTrue(response.getBody().contains(examplePlayer));
+    }
+
+    @Test
+    public void createTeamPlayer() {
+        String url = "http://localhost:"+portNumber+"/teams/fc-barcelona/players/";
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        Player player = new Player(5, "Rafał", "Moczydłowski", "fc-barcelona");
+
+        HttpEntity entity = new HttpEntity<>(player, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        String actual = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+
+        assertTrue(actual.contains("/teams/fc-barcelona/players/"));
     }
 }
