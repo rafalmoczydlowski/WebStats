@@ -11,6 +11,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.apache.commons.codec.binary.Base64;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +32,7 @@ public class TeamControllerIT {
     @Before
     public void beforeTest() {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.add("Authorization", createHttpAuthenticationHeaderValue("Rafał", "password"));
     }
 
     @Test
@@ -65,12 +67,20 @@ public class TeamControllerIT {
         assertTrue(actual.contains("/teams/fc-barcelona/players/"));
     }
 
+    private ResponseEntity<String> getResponseEntityByPlayersId(int playerId) {
+        HttpEntity entity = new HttpEntity(null, headers);
+        return restTemplate.exchange(getURLWithPortNumber()+playerId, HttpMethod.GET, entity, String.class);
+    }
+
     private String getURLWithPortNumber() {
         return "http://localhost:"+portNumber+"/teams/fc-barcelona/players/";
     }
 
-    private ResponseEntity<String> getResponseEntityByPlayersId(int playerId) {
-        HttpEntity entity = new HttpEntity(null, headers);
-        return restTemplate.exchange(getURLWithPortNumber()+playerId, HttpMethod.GET, entity, String.class);
+    private String createHttpAuthenticationHeaderValue(String name, String password) {
+        String auth = name + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes());
+        System.out.println("encodedBytes " + new String(encodedAuth));
+        String headerValue = "Basic " + new String(encodedAuth);
+        return headerValue;
     }
 }
