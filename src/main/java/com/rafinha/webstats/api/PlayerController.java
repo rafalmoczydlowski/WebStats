@@ -1,5 +1,6 @@
 package com.rafinha.webstats.api;
 
+import com.rafinha.webstats.jpa.PlayerRepository;
 import com.rafinha.webstats.model.Player;
 import com.rafinha.webstats.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class PlayerController {
@@ -21,11 +23,14 @@ public class PlayerController {
     @Autowired
     PlayerService playerService;
 
+    @Autowired
+    PlayerRepository playerRepository;
+
     @GetMapping("/players-list")
     public String showPlayersList(ModelMap modelMap) {
         String name = getLoggedInUserName();
         modelMap.put("name", name);
-        modelMap.put("players", playerService.showAllPlayers());
+        modelMap.put("players", playerRepository.findAll());
         return "players-list";
     }
 
@@ -40,20 +45,23 @@ public class PlayerController {
         if(result.hasErrors())
             return PLAYER;
 
+        playerRepository.save(player);
         PlayerService.addPlayer(player.getName(), player.getSurname(), player.getClub());
         return REDIRECT_1;
     }
 
     @GetMapping(value = "/delete-player")
     public String deletePlayer(@RequestParam int id) {
+        playerRepository.deleteById(id);
         playerService.deletePlayerById(id);
         return REDIRECT_1;
     }
 
     @GetMapping("/update-player")
     public String showUpdatePlayerPage(@RequestParam int id, ModelMap modelMap) {
-        Player player = playerService.retrievePlayer(id);
-        modelMap.put(PLAYER, player);
+        Optional<Player> player = playerRepository.findById(id);
+        if(player.isPresent())
+            modelMap.put(PLAYER, player.get());
         return PLAYER;
     }
 
@@ -61,7 +69,9 @@ public class PlayerController {
     public String updatePlayer(@RequestParam int id, @Valid Player player, BindingResult result) {
         if(result.hasErrors())
             return PLAYER;
+        playerRepository.deleteById(id);
         playerService.deletePlayerById(id);
+        playerRepository.save(player);
         PlayerService.updatePlayer(id ,player.getName(), player.getSurname(), player.getClub());
         return REDIRECT_1;
     }
