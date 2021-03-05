@@ -59,7 +59,7 @@ public class PlayerService {
         return null;
     }
 
-    public static void updatePlayer(int id,String name, String surname, String club) {
+    public static void updatePlayer(int id, String name, String surname, String club) {
         players.add(new Player(id, name, surname, club));
     }
 
